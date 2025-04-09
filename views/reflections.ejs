@@ -1,0 +1,53 @@
+<!-- views/reflection.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Reflections | Random Act of Sunnah</title>
+</head>
+<body>
+  <h1>Your Sunnah Reflection</h1>
+  <a href="/community-posts">🌐 View Community Posts</a>
+<br />
+<a href="/dashboard">← Back to Dashboard</a>
+
+
+  <!-- Form to create a new reflection -->
+  <form action="/reflections" method="POST">
+    <div>
+      <label for="content">What did you experience while doing the sunnah?</label><br />
+      <textarea name="content" id="content" rows="4" required></textarea>
+    </div>
+    <button type="submit">Add Reflection</button>
+  </form>
+
+  <hr>
+
+  <!-- Existing reflections -->
+  <h2>Your Previous Reflections</h2>
+  
+  <% if (reflections && reflections.length > 0) { %>
+    <% reflections.forEach((reflection) => { %>
+      <div>
+        <p><%= reflections.content %></p>
+
+        <!-- Edit form -->
+        <form action="/reflections/<%= reflection.id %>/edit" method="GET" style="display: inline;">
+          <button type="submit">Edit</button>
+        </form>
+
+        <!-- Delete form -->
+        <form action="/reflections/<%= reflection.id %>?_method=DELETE" method="POST" style="display: inline;">
+          <button type="submit">Delete</button>
+        </form>
+      </div>
+      <hr>
+    <% }) %>
+  <% } else { %>
+    <p>You haven't added any reflections yet.</p>
+  <% } %>
+</body>
+</html>
+
+
+

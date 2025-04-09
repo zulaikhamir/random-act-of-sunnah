@@ -1,0 +1,27 @@
+<!-- views/edit-reflection.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Reflection | Random Act of Sunnah</title>
+</head>
+<body>
+  <h1>Edit Your Reflection</h1>
+
+  <form action="/reflections/<%= reflection.id %>/update" method="POST">
+    <div>
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" value="<%= reflection.username %>" required />
+    </div>
+
+    <div>
+      <label for="content">Reflection</label>
+      <textarea id="content" name="content" rows="4" required><%= reflection.content %></textarea>
+    </div>
+
+    <button type="submit">Update</button>
+  </form>
+
+  <p><a href="/reflections">← Back to Reflections</a></p>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Motivation</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="headline">Don't Miss This Beautiful Sunnah!</h1>
+    <p class="motivation-text">
+      Even the smallest Sunnah can bring the greatest barakah into your life. 🌿<br>
+      The Prophet ﷺ said: <em>"Whoever revives my Sunnah has loved me..."</em> (Tirmidhi)
+    </p>
+
+    <div class="button-group">
+      <a href="/get-sunnah" class="btn">Get Another Sunnah</a>
+      <a href="/community-posts" class="btn">See What Others Are Doing</a>
+	  
+    </div>
+
+    <% if (posts && posts.length > 0) { %>
+      <h2 class="section-title">Inspiring Posts from Others</h2>
+      <div class="post-feed">
+        <% posts.forEach(post => { %>
+          <div class="post-card">
+            <p><strong><%= post.username %></strong> did:</p>
+            <p><%= post.content %></p>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <p class="no-posts">No posts yet. Be the first to share your journey!</p>
+    <% } %>
+  </div>
+</body>
+</html>

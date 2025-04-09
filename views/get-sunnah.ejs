@@ -1,0 +1,31 @@
+<!-- views/get-sunnah.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Get a Random Sunnah</title>
+</head>
+<body>
+  <h1>🌙 Revive a Sunnah</h1>
+
+  <p>Click the button to receive a beautiful Sunnah to practice today 💫</p>
+
+  <form action="/get-sunnah" method="POST">
+    <button type="submit">🎁 Give Me a Sunnah</button>
+  </form>
+
+  <% if (sunnah) { %>
+    <div>
+      <h2>Today's Sunnah ✨</h2>
+      <p><%= sunnah %></p>
+
+      <a href="/motivation">✅ I did it!</a>
+      <br />
+      <a href="/motivation">⏳ Will do it later</a>
+    </div>
+  <% } %>
+
+  <br />
+  <a href="/dashboard">← Back to Dashboard</a>
+</body>
+</html>

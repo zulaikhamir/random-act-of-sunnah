@@ -1,0 +1,58 @@
+<!-- views/dashboard.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard | Random Act of Sunnah</title>
+</head>
+<body>
+  <h1>Assalamu Alaikum, <%= username || 'User' %>!</h1>
+  
+  <h2>Dashboard</h2>
+  <ul class="nav-menu">
+    <li><a href="/get-sunnah">✨ Get a Random Sunnah</a></li>
+    <li><a href="/motivation">🌟 Today's Motivation</a></li>
+    <li><a href="/community-posts">👥 Community Wall</a></li>
+    <li><a href="/reflections">📝 Reflect & Share</a></li>
+  </ul>
+  
+  <% if (sunnah) { %>
+    <div class="sunnah-card">
+      <h3>Your Sunnah:</h3>
+      <p><%= sunnah %></p>
+      
+      <div class="action-buttons">
+        <form action="/done" method="POST">
+          <button type="submit">✅ Done</button>
+        </form>
+        
+        <form action="/later" method="GET">
+          <button type="submit">🕒 Will Do It Later</button>
+        </form>
+      </div>
+    </div>
+  <% } else { %>
+    <div class="sunnah-card">
+      <h3>Click below to get a Random Sunnah</h3>
+      <form action="/get-sunnah" method="POST">
+        <button type="submit">Get Random Sunnah</button>
+      </form>
+    </div>
+  <% } %>
+  
+  <% if (typeof posts !== 'undefined' && posts.length > 0) { %>
+    <div class="recent-posts">
+      <h2>Recent Posts</h2>
+      <ul>
+        <% posts.forEach(post => { %>
+          <li><strong><%= post.username %></strong>: <%= post.content %></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+  
+  <form action="/logout" method="POST" class="logout-button">
+    <button type="submit">Logout</button>
+  </form>
+</body>
+</html>

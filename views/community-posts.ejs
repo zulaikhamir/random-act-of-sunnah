@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Community Wall</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="headline">🌟 Community Sunnah Wall</h1>
+    <p class="intro-text">Here’s what others are doing to revive the Sunnah!</p>
+    
+
+
+    <% if (posts && posts.length > 0) { %>
+      <div class="post-feed">
+        <% posts.forEach(post => { %>
+          <div class="post-card">
+            <p class="username"><strong><%= post.username %></strong> shared:</p>
+            <p class="post-content"><%= post.content %></p>
+            <p class="post-date">🕒 <%= post.date.toDateString() %></p>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <p class="no-posts">No community posts yet. Be the first to share your Sunnah story!</p>
+    <% } %>
+
+    <a href="/get-sunnah" class="btn back-btn">← Back to Sunnah</a>
+    <a href="/reflections">📝 Add Your Own Post</a>
+<br />
+<a href="/dashboard">← Back to Dashboard</a>
+  </div>
+</body>
+</html>
