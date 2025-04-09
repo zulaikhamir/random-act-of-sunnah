@@ -15,21 +15,23 @@ const __dirname = path.dirname(__filename);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Serve static files (like styles.css)
+// Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(express.urlencoded({ extended: true }));
 
+// 🔥 Inject currentUser into all views
+app.use((req, res, next) => {
+  res.locals.currentUser = currentUser;
+  next();
+});
 
-// Sample data (temporary)
+// Sample posts and reflections
 const posts = [
   { username: 'Zulaikha', content: 'Revived the Sunnah of eating with the right hand 🍽️', date: new Date() },
   { username: 'Fatima', content: 'Gave water to a cat 🐱', date: new Date() }
 ];
 
-
-// Sample reflections array (fake data for now)
-const reflections = [
+let reflections = [
   { id: 1, username: 'Zulaikha', content: 'It felt good to smile intentionally today 😊' },
   { id: 2, username: 'Fatima', content: 'I helped a neighbor quietly. Peaceful!' },
   { id: 3, username: 'Faham', content: 'Started with Bismillah today 🧕🏼' },
@@ -46,32 +48,17 @@ const sunnahs = [
   "Sleep on your right side 😴"
 ];
 
-// Show register form
-app.get('/register', (req, res) => {
-  res.render('register');
-});
-
-// Handle form submission
-app.post('/register', (req, res) => {
-  const { username, password } = req.body;
-
-  // Check if user already exists
-  const userExists = users.find(user => user.username === username);
-  if (userExists) {
-    return res.send('User already exists. Please login.');
-  }
-
-  // Store new user
-  users.push({ username, password });
-  console.log('Users:', users); // For testing
+// Routes
+app.get('/', (req, res) => {
   res.redirect('/login');
 });
 
+app.get('/login', (req, res) => {
+  res.render('login');
+});
 
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
-
-  // ✅ Temporarily accept any username/password
   if (username && password) {
     currentUser = username;
     res.redirect('/dashboard');
@@ -79,47 +66,43 @@ app.post('/login', (req, res) => {
     res.send('Invalid credentials');
   }
 });
+
+app.get('/register', (req, res) => {
+  res.render('register');
+});
+
+app.post('/register', (req, res) => {
+  const { username, password } = req.body;
+  const userExists = users.find(user => user.username === username);
+  if (userExists) {
+    return res.send('User already exists. Please login.');
+  }
+  users.push({ username, password });
+  console.log('Users:', users);
+  res.redirect('/login');
+});
+
 app.post('/logout', (req, res) => {
   currentUser = null;
   res.redirect('/login');
 });
 
 app.get('/dashboard', (req, res) => {
-  if (!currentUser) {
-    return res.redirect('/login');
-  }
-
+  if (!currentUser) return res.redirect('/login');
   res.render('dashboard', {
     username: currentUser,
-    sunnah: null, // optional for now
-    posts: [], // optional
-  });
-});
-
-// Routes
-// Redirect from root
-app.get('/', (req, res) => {
-  res.redirect('/login');
-});
-
-// GET login page
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
-app.get('/register', (req, res) => {
-  res.render('register');
-});
-app.get('/dashboard', (req, res) => {
-  res.render('dashboard', {
-    username: 'Zulaikha', // or pull this from session later
     sunnah: null,
     posts
   });
 });
 
 app.get('/get-sunnah', (req, res) => {
-  res.render('get-sunnah', { sunnah: null });
+  const randomSunnah = sunnahs[Math.floor(Math.random() * sunnahs.length)];
+  res.render('dashboard', {
+    username: currentUser,
+    sunnah: randomSunnah,
+    posts: reflections
+  });
 });
 
 app.post('/get-sunnah', (req, res) => {
@@ -127,22 +110,9 @@ app.post('/get-sunnah', (req, res) => {
   res.render('get-sunnah', { sunnah: randomSunnah });
 });
 
-app.get('/get-sunnah', (req, res) => {
-  const randomSunnah = sunnahs[Math.floor(Math.random() * sunnahs.length)];
-  res.render('dashboard', {
-    username: req.session.username,
-    sunnah: randomSunnah,
-    posts: reflections
-  });
-});
-
-
-
 app.get('/motivation', (req, res) => {
   res.render('motivation', { posts });
 });
-
-
 
 app.get('/community-posts', (req, res) => {
   res.render('community-posts', { posts });
@@ -150,17 +120,13 @@ app.get('/community-posts', (req, res) => {
 
 app.get('/reflections', (req, res) => {
   res.render('reflections', {
-    reflections,
-    currentUser: req.session.username
+    reflections
   });
 });
 
-
-
-
 app.post('/reflections', (req, res) => {
   const { content } = req.body;
-  const username = req.session.username;
+  const username = currentUser;
   const newReflection = {
     id: Date.now(),
     username,
@@ -170,7 +136,6 @@ app.post('/reflections', (req, res) => {
   res.redirect('/reflections');
 });
 
-// Edit form
 app.get('/reflections/:id/edit', (req, res) => {
   const id = parseInt(req.params.id);
   const reflection = reflections.find(r => r.id === id);
@@ -178,8 +143,7 @@ app.get('/reflections/:id/edit', (req, res) => {
   res.render('edit-reflection', { reflection });
 });
 
-// Update reflection
-app.post('/reflections/:id/update', express.urlencoded({ extended: true }), (req, res) => {
+app.post('/reflections/:id/update', (req, res) => {
   const id = parseInt(req.params.id);
   const { username, content } = req.body;
   reflections = reflections.map(r =>
@@ -188,7 +152,6 @@ app.post('/reflections/:id/update', express.urlencoded({ extended: true }), (req
   res.redirect('/reflections');
 });
 
-// Delete reflection
 app.post('/reflections/:id/delete', (req, res) => {
   const id = parseInt(req.params.id);
   reflections = reflections.filter(r => r.id !== id);
@@ -197,5 +160,5 @@ app.post('/reflections/:id/delete', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(` http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
