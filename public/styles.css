@@ -6,8 +6,8 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #E2D2C8; /* Soft Cream */
-  color: #482A41; /* Deep Plum */
+  background-color: #E2D2C8;
+  color: #482A41;
   margin: 0;
   padding: 0;
 }
@@ -24,25 +24,76 @@ h1, h2, h3, .headline, .section-title {
 }
 
 .section-title {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin: 2rem 0 1rem;
 }
 
 /* ===========================
-   Auth Card
+   Card Styling
 =========================== */
 
-.auth-card {
+.auth-card,
+.content-card,
+.reflection-card,
+.post-card {
   background-color: #fff;
-  border: 2px solid #CEB2BD;
-  border-radius: 16px;
-  padding: 2.5rem 2rem;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+  border: 1px solid #CEB2BD;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-card {
+  max-width: 500px;
+  margin: auto;
+}
+
+.content-card:hover,
+.reflection-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.reflection-card {
+  background-color: #f5e9e4;
+  margin-bottom: 2rem;
+}
+
+.post-card {
+  background-color: #F9F4F1;
+  border-left: 5px solid #8E7692;
+  color: #333;
+}
+
+.nav-card {
+  padding: 2rem;
+  min-height: 220px;
+  font-size: 1.2rem;
+  text-align: center;
 }
 
 /* ===========================
    Buttons & Links
 =========================== */
+
+button,
+.btn-custom,
+.button-group .btn,
+a.back-btn,
+a.add-post-btn,
+a.dashboard-link,
+.primary-btn,
+.add-reflection-btn,
+.edit-btn,
+.delete-btn {
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+  padding: 0.6rem 1.2rem;
+}
 
 .btn-custom,
 .button-group .btn,
@@ -50,29 +101,9 @@ h1, h2, h3, .headline, .section-title {
 a.back-btn,
 a.add-post-btn,
 a.dashboard-link,
-.primary-btn,
 .add-reflection-btn {
-  background-color: #CEB2BD; /* Blush Pink */
+  background-color: #CEB2BD;
   color: #482A41;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  padding: 0.6rem 1.2rem;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.btn-custom:hover,
-.button-group .btn:hover,
-.logout-button button:hover,
-a.back-btn:hover,
-a.add-post-btn:hover,
-a.dashboard-link:hover,
-.add-reflection-btn:hover {
-  background-color: #E2D2C8; /* Soft Cream */
-  color: #572E54;
-  transform: scale(1.05);
 }
 
 .primary-btn {
@@ -84,19 +115,22 @@ a.dashboard-link:hover,
   background-color: #27ae60;
 }
 
-.edit-btn,
-.delete-btn {
-  padding: 0.4rem 1rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border-radius: 6px;
-  border: none;
-  transition: all 0.3s ease;
+button:hover,
+.btn-custom:hover,
+.button-group .btn:hover,
+.logout-button button:hover,
+a.back-btn:hover,
+a.add-post-btn:hover,
+a.dashboard-link:hover,
+.add-reflection-btn:hover {
+  background-color: #E2D2C8;
+  color: #572E54;
+  transform: scale(1.05);
 }
 
 .edit-btn {
   background-color: #8E7692;
-  color: white;
+  color: #fff;
 }
 
 .edit-btn:hover {
@@ -105,11 +139,34 @@ a.dashboard-link:hover,
 
 .delete-btn {
   background-color: #b23a48;
-  color: white;
+  color: #fff;
 }
 
 .delete-btn:hover {
   background-color: #962d3e;
+}
+
+.custom-btn-outline {
+  background-color: transparent;
+  border: 2px solid #8E7692;
+  color: #8E7692;
+  padding: 8px 20px;
+}
+
+.custom-btn-outline:hover {
+  background-color: #572E54;
+  color: #fff;
+  border-color: #572E54;
+}
+
+.custom-btn-secondary {
+  background: none;
+  color: #572E54;
+  text-decoration: underline;
+}
+
+.custom-btn-secondary:hover {
+  color: #8E7692;
 }
 
 .link-custom {
@@ -122,7 +179,7 @@ a.dashboard-link:hover,
 }
 
 /* ===========================
-   Inputs
+   Forms & Inputs
 =========================== */
 
 .form-control {
@@ -152,104 +209,46 @@ a.dashboard-link:hover,
 }
 
 /* ===========================
-   Dashboard
+   Dashboard & Quote
 =========================== */
 
 .dashboard-subtitle {
   font-family: 'Inter', sans-serif;
   color: #8E7692;
   font-size: 1.2rem;
-  margin-top: -1rem;
-  margin-bottom: 2rem;
+  margin: -1rem 0 2rem;
 }
 
-.quote-box {
-  background-color: #E2D2C8;
-  border-left: 5px solid #482A41;
-  padding: 1.5rem;
-  border-radius: 12px;
-  color: #482A41;
-  font-size: 1.1rem;
-  max-width: 700px;
-  margin: 0 auto 2rem;
-}
-
-/* ===========================
-   Navigation Menu
-=========================== */
-
-.nav-menu li a {
-  background-color: #CEB2BD;
-  color: #572E54;
-  font-weight: 500;
-  font-size: 1.1rem;
-  padding: 0.75rem 1.2rem;
-  border-radius: 8px;
-  display: inline-block;
-  text-decoration: none;
-  transition: transform 0.2s ease, background-color 0.3s ease;
-}
-
-.nav-menu li a:hover {
-  background-color: #E2D2C8;
-  transform: scale(1.03);
-  text-decoration: none;
-}
-
-/* ===========================
-   Motivation Page
-=========================== */
-
+.quote-box,
 .motivation-text {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.2rem;
-  text-align: center;
-  color: #572E54;
   background-color: #E2D2C8;
-  padding: 1.5rem;
   border-radius: 12px;
+  padding: 1.5rem;
+  color: #482A41;
+  text-align: center;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   margin-bottom: 2rem;
 }
 
-.button-group {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
+.quote-box {
+  border-left: 5px solid #482A41;
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: auto auto 2rem;
+}
+
+.motivation-text {
+  font-size: 1.2rem;
 }
 
 /* ===========================
-   Post Feeds (Community / Reflections)
+   Posts Feed
 =========================== */
 
 .post-feed {
   display: grid;
   gap: 1.5rem;
   margin-bottom: 2rem;
-}
-
-.post-card {
-  background-color: #F9F4F1;
-  border-left: 5px solid #8E7692;
-  padding: 1rem 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  font-family: 'Inter', sans-serif;
-  color: #333;
-}
-
-.reflection-card {
-  background-color: #f5e9e4;
-  padding: 1rem;
-  border-radius: 12px;
-  margin-bottom: 2rem;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease;
-}
-
-.reflection-card:hover {
-  transform: scale(1.01);
 }
 
 .username {
@@ -272,25 +271,55 @@ a.dashboard-link:hover,
   text-align: center;
   color: #8E7692;
   font-style: italic;
-  font-size: 1.1rem;
   font-weight: 500;
   padding: 2rem 0;
 }
 
 /* ===========================
-   Utility Classes
+   Navigation
 =========================== */
 
+.nav-menu li a,
 .navigation-links a {
+  background-color: #CEB2BD;
+  color: #572E54;
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.2rem;
+  border-radius: 8px;
+  display: inline-block;
+  text-decoration: none;
+  transition: all 0.3s ease;
   margin-right: 1rem;
   margin-bottom: 1rem;
-  display: inline-block;
 }
+
+.nav-menu li a:hover,
+.navigation-links a:hover {
+  background-color: #E2D2C8;
+  transform: scale(1.03);
+}
+
+/* ===========================
+   Utility
+=========================== */
+
+.bg-soft-cream {
+  background-color: #E2D2C8;
+}
+
+.text-deep-plum {
+  color: #482A41;
+}
+
+.text-dusty-purple {
+  color: #8E7692;
+}
+
 /* ===========================
    Responsive Design
 =========================== */
 
-/* Tablets (max-width: 768px) */
 @media (max-width: 768px) {
   .auth-card {
     padding: 2rem 1rem;
@@ -301,17 +330,14 @@ a.dashboard-link:hover,
   }
 
   .dashboard-subtitle,
-  .motivation-text {
-    font-size: 1rem;
-  }
-
-  .post-feed {
-    grid-template-columns: 1fr; /* Single column layout */
-  }
-
+  .motivation-text,
   .quote-box {
     font-size: 1rem;
     padding: 1rem;
+  }
+
+  .post-feed {
+    grid-template-columns: 1fr;
   }
 
   .button-group {
@@ -325,7 +351,6 @@ a.dashboard-link:hover,
   }
 }
 
-/* Phones (max-width: 480px) */
 @media (max-width: 480px) {
   body {
     padding: 1rem;
@@ -363,98 +388,3 @@ a.dashboard-link:hover,
     font-size: 0.95rem;
   }
 }
-/* Main Background and Text Colors */
-.bg-soft-cream {
-  background-color: #E2D2C8;
-}
-
-.text-deep-plum {
-  color: #482A41;
-}
-
-.text-dusty-purple {
-  color: #8E7692;
-}
-
-/* Button Styles */
-.custom-btn-primary {
-  background-color: #CEB2BD;
-  color: #482A41;
-  border: none;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: background-color 0.3s;
-}
-
-.custom-btn-primary:hover {
-  background-color: #8E7692;
-  color: #fff;
-}
-
-.custom-btn-outline {
-  background-color: transparent;
-  border: 2px solid #8E7692;
-  color: #8E7692;
-  font-weight: 500;
-  border-radius: 8px;
-  padding: 8px 20px;
-  transition: all 0.3s ease-in-out;
-}
-
-.custom-btn-outline:hover {
-  background-color: #572E54;
-  color: #fff;
-  border-color: #572E54;
-}
-
-.custom-btn-secondary {
-  background-color: transparent;
-  color: #572E54;
-  border: none;
-  font-weight: 500;
-  text-decoration: underline;
-}
-
-.custom-btn-secondary:hover {
-  color: #8E7692;
-}
-
-
-/* ===========================
-   Shared Card Styling
-=========================== */
-.content-card {
-  background-color: #fff;
-  border-radius: 12px;
-  border: 1px solid #CEB2BD;
-  padding: 1.5rem;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-align: center;
-}
-
-.content-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
-
-.content-card a {
-  text-decoration: none;
-  color: #572E54;
-  font-weight: 600;
-  display: block;
-  font-size: 1.1rem;
-  margin-top: 0.5rem;
-}
-
-.content-card a:hover {
-  color: #8E7692;
-}
-
-.nav-card {
-  padding: 2rem;
-  min-height: 220px;
-  font-size: 1.2rem;
-}
-
-

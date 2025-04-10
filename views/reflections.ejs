@@ -18,7 +18,74 @@
 
     <h1 class="headline mb-4">📝 Your Sunnah Reflection</h1>
 
-    <div class="content-card mb-4">
+    <% if (currentUser && currentUser !== 'Guest') { %>
+      <!-- ✨ Create New Reflection Form -->
+      <form action="/reflections" method="POST" class="p-3 rounded shadow-sm bg-white mb-5" style="max-width: 600px;">
+        <div class="d-flex align-items-start">
+          <img src="/images/user-placeholder.png" alt="User" class="rounded-circle me-3" style="width: 40px; height: 40px;">
+          <div class="flex-grow-1">
+            <textarea
+              name="content"
+              id="content"
+              class="form-control border-0"
+              rows="2"
+              placeholder="✨ Share your sunnah experience..."
+              style="resize: none; font-size: 1rem;"
+              required
+            ></textarea>
+          </div>
+        </div>
+        <div class="text-end mt-2">
+          <button type="submit" class="custom-post-btn">Post</button>
+        </div>
+      </form>
+    <% } else { %>
+      <p class="text-center text-muted">🔒 You must be logged in to add or view your reflections.</p>
+    <% } %>
+
+    <% if (currentUser && currentUser !== 'Guest') { %>
+      <!-- 📖 Your Previous Reflections -->
+      <div class="content-card mb-5">
+        <h2 class="section-title">📖 Your Previous Reflections</h2>
+        <% const userReflections = reflections.filter(r => r.username === currentUser); %>
+        <% if (userReflections.length > 0) { %>
+          <% userReflections.forEach((reflection) => { %>
+            <div class="reflection-card mb-4">
+
+              <% if (typeof editingId !== 'undefined' && parseInt(editingId) === reflection.id) { %>
+                <!-- Inline Edit Form -->
+             
+              
+                  <form action="/reflections/<%= reflection.id %>/update" method="POST">
+
+
+                  <textarea name="content" class="form-control mb-2" rows="3" required><%= reflection.content %></textarea>
+                  <button type="submit" class="btn btn-success btn-sm">💾 Save</button>
+                  <a href="/reflections" class="btn btn-secondary btn-sm">Cancel</a>
+                </form>
+              <% } else { %>
+                <p><%= reflection.content %></p>
+                <div class="d-flex gap-2">
+                  <form action="/reflections/<%= reflection.id %>/edit" method="GET">
+                    <button type="submit" class="btn edit-btn">✏️ Edit</button>
+                  </form>
+                  <form action="/reflections/<%= reflection.id %>/delete" method="POST">
+                    <button type="submit" class="btn delete-btn">🗑️ Delete</button>
+                  </form>
+                </div>
+              <% } %>
+
+            </div>
+            <hr>
+          <% }) %>
+        <% } else { %>
+          <p class="no-posts">You haven't added any reflections yet.</p>
+        <% } %>
+      </div>
+    <% } %>
+
+    <!-- 🌐 Community Reflections -->
+    <div class="content-card">
       <h5 class="section-title">🌐 Community Reflections</h5>
 
       <% if (allPosts && allPosts.length > 0) { %>
@@ -43,60 +110,7 @@
       </div>
     </div>
 
-    <% if (currentUser && currentUser !== 'Guest') { %>
-      <!-- 🐦 Twitter-style Reflection Form -->
-      <form action="/reflections" method="POST" class="p-3 rounded shadow-sm bg-white mb-5" style="max-width: 600px;">
-        <div class="d-flex align-items-start">
-          <img src="/images/user-placeholder.png" alt="User" class="rounded-circle me-3" style="width: 40px; height: 40px;">
-          <div class="flex-grow-1">
-            <textarea
-              name="content"
-              id="content"
-              class="form-control border-0"
-              rows="2"
-              placeholder="✨ Share your sunnah experience..."
-              style="resize: none; font-size: 1rem;"
-              required
-            ></textarea>
-          </div>
-        </div>
-        <div class="text-end mt-2">
-          <button type="submit" class="custom-post-btn">Post</button>
-
-        </div>
-      </form>
-
-      <hr>
-
-      <h2 class="section-title">📖 Your Previous Reflections</h2>
-
-      <% 
-        const userReflections = reflections.filter(r => r.username === currentUser);
-        if (userReflections.length > 0) { 
-      %>
-        <% userReflections.forEach((reflection) => { %>
-          <div class="reflection-card mb-4">
-            <p><%= reflection.content %></p>
-            <div class="d-flex gap-2">
-              <form action="/reflections/<%= reflection.id %>/edit" method="GET">
-                <button type="submit" class="btn edit-btn">✏️ Edit</button>
-              </form>
-              <form action="/reflections/<%= reflection.id %>/delete" method="POST">
-                <button type="submit" class="btn delete-btn">🗑️ Delete</button>
-              </form>
-            </div>
-          </div>
-          <hr>
-        <% }) %>
-      <% } else { %>
-        <p class="no-posts">You haven't added any reflections yet.</p>
-      <% } %>
-
-    <% } else { %>
-      <p class="text-center text-muted">🔒 You must be logged in to add or view your reflections.</p>
-    <% } %>
-
-    <!-- Back to Dashboard link -->
+    <!-- Back to Dashboard -->
     <div class="mt-4">
       <a href="/dashboard" class="text-decoration-none">← Back to Dashboard</a>
     </div>

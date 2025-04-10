@@ -1,3 +1,4 @@
+// ✨ Your existing imports and setup...
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -5,21 +6,20 @@ import { fileURLToPath } from 'url';
 const app = express();
 const PORT = 3000;
 
-// Required for __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Middleware & Settings
+// ✨ Middleware setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// Fake authentication system
+// ✨ In-memory data
 let currentUser = null;
-const users = []; // { username: 'zulaikha', password: '1234' }
+const users = [];
 
-// Sample Sunnah data
 const sunnahs = [
   "Use miswak before every prayer 🪥",
   "Say Bismillah before eating 🍽️",
@@ -29,7 +29,6 @@ const sunnahs = [
   "Sleep on your right side 😴"
 ];
 
-// Posts & Reflections
 const posts = [
   { username: 'Zulaikha', content: 'Revived the Sunnah of eating with the right hand 🍽️', date: new Date() },
   { username: 'Fatima', content: 'Gave water to a cat 🐱', date: new Date() }
@@ -43,20 +42,23 @@ let reflections = [
   { id: 5, username: 'Tabinda', content: 'Gave salaam first today 👋🏼' }
 ];
 
-// 🔥 Inject currentUser into all views
+// ✨ Middleware to inject currentUser into all templates
 app.use((req, res, next) => {
   res.locals.currentUser = currentUser;
   next();
 });
 
-// Routes
-app.get('/', (req, res) => {
-  res.redirect('/login');
-});
+// ✨ Utility
+function getRandomSunnah() {
+  return sunnahs[Math.floor(Math.random() * sunnahs.length)];
+}
 
-app.get('/login', (req, res) => {
-  res.render('login');
-});
+// ✨ Routes
+
+app.get('/', (req, res) => res.redirect('/login'));
+
+// ✨ Auth Routes
+app.get('/login', (req, res) => res.render('login'));
 
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
@@ -68,18 +70,14 @@ app.post('/login', (req, res) => {
   }
 });
 
-app.get('/register', (req, res) => {
-  res.render('register');
-});
+app.get('/register', (req, res) => res.render('register'));
 
 app.post('/register', (req, res) => {
   const { username, password } = req.body;
-  const userExists = users.find(user => user.username === username);
-  if (userExists) {
+  if (users.find(user => user.username === username)) {
     return res.send('User already exists. Please login.');
   }
   users.push({ username, password });
-  console.log('Users:', users);
   res.redirect('/login');
 });
 
@@ -88,6 +86,7 @@ app.post('/logout', (req, res) => {
   res.redirect('/login');
 });
 
+// ✨ Dashboard
 app.get('/dashboard', (req, res) => {
   res.render('dashboard', {
     username: currentUser || 'Guest',
@@ -96,67 +95,75 @@ app.get('/dashboard', (req, res) => {
   });
 });
 
+// ✨ Get random sunnah (AJAX)
 app.post('/get-sunnah', (req, res) => {
-  const randomSunnah = sunnahs[Math.floor(Math.random() * sunnahs.length)];
-  res.render('dashboard', {
-    username: currentUser,
-    sunnah: randomSunnah,
-    posts
-  });
+  const sunnah = getRandomSunnah();
+  res.json({ sunnah });
+});
+
+// ✨ Community
+app.get('/community-posts', (req, res) => {
+  res.render('community-posts', { posts });
 });
 
 app.get('/motivation', (req, res) => {
   res.render('motivation', { posts });
 });
 
-app.get('/community-posts', (req, res) => {
-  res.render('community-posts', { posts });
-});
-
+// ✨ Reflections main page
 app.get('/reflections', (req, res) => {
-  const username = currentUser || "Guest";
   res.render('reflections', {
     reflections,
-    currentUser: username,
+    currentUser: currentUser || 'Guest',
     allPosts: reflections
   });
 });
 
 app.post('/reflections', (req, res) => {
   const { content } = req.body;
-  const username = currentUser;
-  const newReflection = {
-    id: Date.now(),
-    username,
-    content
-  };
-  reflections.push(newReflection);
+  if (currentUser && currentUser !== 'Guest') {
+    reflections.push({ id: Date.now(), username: currentUser, content });
+  }
   res.redirect('/reflections');
 });
 
+// ✨ Edit Reflection (form page)
 app.get('/reflections/:id/edit', (req, res) => {
   const id = parseInt(req.params.id);
-  const reflection = reflections.find(r => r.id === id);
-  if (!reflection) return res.send("Not found");
-  res.render('edit-reflection', { reflection });
+  const reflectionToEdit = reflections.find(r => r.id === id);
+  if (!reflectionToEdit) return res.redirect('/reflections');
+
+  res.render('edit-reflections', {
+    reflection: reflectionToEdit
+  });
 });
 
+// ✨ Update Reflection
 app.post('/reflections/:id/update', (req, res) => {
   const id = parseInt(req.params.id);
   const { username, content } = req.body;
+
   reflections = reflections.map(r =>
     r.id === id ? { ...r, username, content } : r
   );
+
   res.redirect('/reflections');
 });
 
+
+// ✨ Delete Reflection
 app.post('/reflections/:id/delete', (req, res) => {
   const id = parseInt(req.params.id);
   reflections = reflections.filter(r => r.id !== id);
   res.redirect('/reflections');
 });
 
-// Start server
+// ✨ Done route
+app.post('/done', (req, res) => {
+  res.redirect('/reflections');
+});
+
+// ✨ Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
 });
