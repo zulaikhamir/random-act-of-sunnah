@@ -4,30 +4,32 @@ import { fileURLToPath } from 'url';
 
 const app = express();
 const PORT = 3000;
-let currentUser = null;
-const users = []; // Example: { username: 'zulaikha', password: '1234' }
 
 // Required for __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Set EJS as view engine
+// Middleware & Settings
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
-// Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
 
+// Fake authentication system
+let currentUser = null;
+const users = []; // { username: 'zulaikha', password: '1234' }
 
-// 🔥 Inject currentUser into all views
-app.use((req, res, next) => {
-  res.locals.currentUser = currentUser;
-  next();
-});
+// Sample Sunnah data
+const sunnahs = [
+  "Use miswak before every prayer 🪥",
+  "Say Bismillah before eating 🍽️",
+  "Smile at someone today 😊",
+  "Say Salam to a stranger 🕊️",
+  "Help someone without expecting reward 🤝",
+  "Sleep on your right side 😴"
+];
 
-// Sample posts and reflections
+// Posts & Reflections
 const posts = [
   { username: 'Zulaikha', content: 'Revived the Sunnah of eating with the right hand 🍽️', date: new Date() },
   { username: 'Fatima', content: 'Gave water to a cat 🐱', date: new Date() }
@@ -41,14 +43,11 @@ let reflections = [
   { id: 5, username: 'Tabinda', content: 'Gave salaam first today 👋🏼' }
 ];
 
-const sunnahs = [
-  "Use miswak before every prayer 🪥",
-  "Say Bismillah before eating 🍽️",
-  "Smile at someone today 😊",
-  "Say Salam to a stranger 🕊️",
-  "Help someone without expecting reward 🤝",
-  "Sleep on your right side 😴"
-];
+// 🔥 Inject currentUser into all views
+app.use((req, res, next) => {
+  res.locals.currentUser = currentUser;
+  next();
+});
 
 // Routes
 app.get('/', (req, res) => {
@@ -89,7 +88,6 @@ app.post('/logout', (req, res) => {
   res.redirect('/login');
 });
 
-
 app.get('/dashboard', (req, res) => {
   res.render('dashboard', {
     username: currentUser || 'Guest',
@@ -98,18 +96,13 @@ app.get('/dashboard', (req, res) => {
   });
 });
 
-app.get('/get-sunnah', (req, res) => {
+app.post('/get-sunnah', (req, res) => {
   const randomSunnah = sunnahs[Math.floor(Math.random() * sunnahs.length)];
   res.render('dashboard', {
     username: currentUser,
     sunnah: randomSunnah,
-    posts: reflections
+    posts
   });
-});
-
-app.post('/get-sunnah', (req, res) => {
-  const randomSunnah = sunnahs[Math.floor(Math.random() * sunnahs.length)];
-  res.render('get-sunnah', { sunnah: randomSunnah });
 });
 
 app.get('/motivation', (req, res) => {
@@ -121,8 +114,11 @@ app.get('/community-posts', (req, res) => {
 });
 
 app.get('/reflections', (req, res) => {
+  const username = currentUser || "Guest";
   res.render('reflections', {
-    reflections
+    reflections,
+    currentUser: username,
+    allPosts: reflections
   });
 });
 
@@ -162,5 +158,5 @@ app.post('/reflections/:id/delete', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });
