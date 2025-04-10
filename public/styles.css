@@ -1,18 +1,460 @@
-/* public/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@500;700&display=swap');
+
+/* ===========================
+   Base Styling
+=========================== */
+
 body {
-	font-family: 'Segoe UI', sans-serif;
-	background: #f5f5f5;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background-color: #E2D2C8; /* Soft Cream */
+  color: #482A41; /* Deep Plum */
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, .headline, .section-title {
+  font-family: 'Playfair Display', serif;
+  color: #482A41;
+  text-align: center;
+}
+
+.headline {
+  font-size: 2.2rem;
+  margin: 2rem 0 1.5rem;
+}
+
+.section-title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* ===========================
+   Auth Card
+=========================== */
+
+.auth-card {
+  background-color: #fff;
+  border: 2px solid #CEB2BD;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+/* ===========================
+   Buttons & Links
+=========================== */
+
+.btn-custom,
+.button-group .btn,
+.logout-button button,
+a.back-btn,
+a.add-post-btn,
+a.dashboard-link,
+.primary-btn,
+.add-reflection-btn {
+  background-color: #CEB2BD; /* Blush Pink */
+  color: #482A41;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-custom:hover,
+.button-group .btn:hover,
+.logout-button button:hover,
+a.back-btn:hover,
+a.add-post-btn:hover,
+a.dashboard-link:hover,
+.add-reflection-btn:hover {
+  background-color: #E2D2C8; /* Soft Cream */
+  color: #572E54;
+  transform: scale(1.05);
+}
+
+.primary-btn {
+  background-color: #2ecc71;
+  color: #fff;
+}
+
+.primary-btn:hover {
+  background-color: #27ae60;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.edit-btn {
+  background-color: #8E7692;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #6f5a73;
+}
+
+.delete-btn {
+  background-color: #b23a48;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #962d3e;
+}
+
+.link-custom {
+  color: #8E7692;
+  text-decoration: none;
+}
+
+.link-custom:hover {
+  text-decoration: underline;
+}
+
+/* ===========================
+   Inputs
+=========================== */
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #8E7692;
+}
+
+.reflection-form {
+  border-bottom: 2px dashed #CEB2BD;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+}
+
+.reflection-form label {
+  font-weight: 500;
+  color: #572E54;
+}
+
+.reflection-form textarea {
+  border: 2px solid #CEB2BD;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #F9F4F2;
+  color: #333;
+  width: 100%;
+  resize: vertical;
+}
+
+/* ===========================
+   Dashboard
+=========================== */
+
+.dashboard-subtitle {
+  font-family: 'Inter', sans-serif;
+  color: #8E7692;
+  font-size: 1.2rem;
+  margin-top: -1rem;
+  margin-bottom: 2rem;
+}
+
+.quote-box {
+  background-color: #E2D2C8;
+  border-left: 5px solid #482A41;
+  padding: 1.5rem;
+  border-radius: 12px;
+  color: #482A41;
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto 2rem;
+}
+
+/* ===========================
+   Navigation Menu
+=========================== */
+
+.nav-menu li a {
+  background-color: #CEB2BD;
+  color: #572E54;
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.2rem;
+  border-radius: 8px;
+  display: inline-block;
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.nav-menu li a:hover {
+  background-color: #E2D2C8;
+  transform: scale(1.03);
+  text-decoration: none;
+}
+
+/* ===========================
+   Motivation Page
+=========================== */
+
+.motivation-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #572E54;
+  background-color: #E2D2C8;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* ===========================
+   Post Feeds (Community / Reflections)
+=========================== */
+
+.post-feed {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.post-card {
+  background-color: #F9F4F1;
+  border-left: 5px solid #8E7692;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  font-family: 'Inter', sans-serif;
+  color: #333;
+}
+
+.reflection-card {
+  background-color: #f5e9e4;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.reflection-card:hover {
+  transform: scale(1.01);
+}
+
+.username {
+  font-weight: 600;
+  color: #482A41;
+}
+
+.post-content {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  color: #572E54;
+}
+
+.post-date {
+  font-size: 0.85rem;
+  color: #8E7692;
+}
+
+.no-posts {
+  text-align: center;
+  color: #8E7692;
+  font-style: italic;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 2rem 0;
+}
+
+/* ===========================
+   Utility Classes
+=========================== */
+
+.navigation-links a {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+/* ===========================
+   Responsive Design
+=========================== */
+
+/* Tablets (max-width: 768px) */
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 2rem 1rem;
   }
-  
-  .login-container {
-	background: white;
-	padding: 2rem;
-	border-radius: 12px;
-	box-shadow: 0 0 12px rgba(0,0,0,0.1);
-	text-align: center;
+
+  .headline {
+    font-size: 1.8rem;
   }
-  
+
+  .dashboard-subtitle,
+  .motivation-text {
+    font-size: 1rem;
+  }
+
+  .post-feed {
+    grid-template-columns: 1fr; /* Single column layout */
+  }
+
+  .quote-box {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button-group .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* Phones (max-width: 480px) */
+@media (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+
+  .headline {
+    font-size: 1.6rem;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+  }
+
+  .auth-card {
+    padding: 1.5rem 0.8rem;
+  }
+
+  .reflection-form textarea {
+    font-size: 0.95rem;
+  }
+
+  .primary-btn,
+  .edit-btn,
+  .delete-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .navigation-links a {
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+
+  .quote-box {
+    font-size: 0.95rem;
+  }
+}
+/* Main Background and Text Colors */
+.bg-soft-cream {
+  background-color: #E2D2C8;
+}
+
+.text-deep-plum {
+  color: #482A41;
+}
+
+.text-dusty-purple {
+  color: #8E7692;
+}
+
+/* Button Styles */
+.custom-btn-primary {
+  background-color: #CEB2BD;
+  color: #482A41;
+  border: none;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.custom-btn-primary:hover {
+  background-color: #8E7692;
+  color: #fff;
+}
+
+.custom-btn-outline {
+  background-color: transparent;
+  border: 2px solid #8E7692;
+  color: #8E7692;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 8px 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-btn-outline:hover {
+  background-color: #572E54;
+  color: #fff;
+  border-color: #572E54;
+}
+
+.custom-btn-secondary {
+  background-color: transparent;
+  color: #572E54;
+  border: none;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.custom-btn-secondary:hover {
+  color: #8E7692;
+}
+
+
+/* ===========================
+   Shared Card Styling
+=========================== */
+.content-card {
+  background-color: #fff;
+  border-radius: 12px;
+  border: 1px solid #CEB2BD;
+  padding: 1.5rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.content-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.content-card a {
+  text-decoration: none;
+  color: #572E54;
+  font-weight: 600;
+  display: block;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+.content-card a:hover {
+  color: #8E7692;
+}
+
+.nav-card {
+  padding: 2rem;
+  min-height: 220px;
+  font-size: 1.2rem;
+}
+
+

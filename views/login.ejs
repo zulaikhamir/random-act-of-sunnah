@@ -1,31 +1,48 @@
-<!-- views/login.ejs -->
-<!-- views/login.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Login | Random Act of Sunnah</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h1>🕌Welcome to Random Act of Sunnah</h1>
 
-  <form action="/login" method="POST">
-    <div>
-      <label for="username">Username</label>
-      <input type="text" name="username" id="username" required />
+  <div class="container d-flex align-items-center justify-content-center vh-100">
+    <div class="auth-card w-100" style="max-width: 420px;">
+      <h1 class="text-center mb-4">🕌 Random Act of Sunnah</h1>
+
+      <form action="/login" method="POST">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" name="username" id="username" class="form-control" required />
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" name="password" id="password" class="form-control" required />
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-custom">Login</button>
+        </div>
+      </form>
+
+      <p class="text-center mt-3">
+        Don't have an account? <a href="/register" class="link-custom">Register here</a>
+      </p>
+      <div class="text-center mt-2">
+        <a href="/dashboard" class="link-custom"> Continue to Dashboard</a>
+      </div>
     </div>
-
-    <div>
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" required />
-    </div>
-
-    <button type="submit">Login</button>
-  </form>
-
-  <p>Don't have an account? <a href="/register">Register here</a></p>
-  <a href="/dashboard">→ Continue to Dashboard</a>
+  </div>
 
 </body>
 </html>
-

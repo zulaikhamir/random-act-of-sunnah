@@ -18,6 +18,8 @@ app.set('views', path.join(__dirname, 'views'));
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
 
 // 🔥 Inject currentUser into all views
 app.use((req, res, next) => {
@@ -87,10 +89,10 @@ app.post('/logout', (req, res) => {
   res.redirect('/login');
 });
 
+
 app.get('/dashboard', (req, res) => {
-  if (!currentUser) return res.redirect('/login');
   res.render('dashboard', {
-    username: currentUser,
+    username: currentUser || 'Guest',
     sunnah: null,
     posts
   });
