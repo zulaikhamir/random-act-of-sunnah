@@ -1,4 +1,4 @@
-# 🌿 Random Act of Sunnah
+#  Random Act of Sunnah
 
 **Random Act of Sunnah** is a simple web application that encourages users to revive small daily Sunnahs through random prompts and reflections. 
 It’s designed to combine spirituality with habit-building in a clean and user-friendly interface.
